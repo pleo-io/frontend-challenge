@@ -1,4 +1,5 @@
 import * as express from 'express'
+import * as fileUpload from 'express-fileupload'
 import * as createError from 'http-errors'
 import * as path from 'path'
 import * as logger from 'morgan'
@@ -8,9 +9,12 @@ import expensesRouter from './routes/expenses'
 const app = express()
 
 app.use(logger('dev'))
+app.use(fileUpload({
+  limit: { fileSize: Infinity },
+}));
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(express.static(path.join(__dirname, 'public')))
+app.use('/receipts', express.static(path.join(__dirname, 'receipts')))
 
 app.use('/expenses', expensesRouter)
 

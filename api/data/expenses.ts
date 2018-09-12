@@ -1,4 +1,22 @@
-export const expenses = [
+interface Expense {
+  id: string;
+  amount: {
+    value: string,
+    currency: string
+  };
+  date: string;
+  merchant: string;
+  receipts: any[];
+  comment: string;
+  category: string;
+  user: {
+    first: string,
+    last: string,
+    email: string
+  };
+}
+
+export const expenses: Expense[] = [
   {
     id: '5b995dff2e3cb74644948a66',
     amount: {
@@ -1481,7 +1499,7 @@ export const expenses = [
   {
     id: '5b995dff47e5e1ab9c27bc29',
     amount: {
-      value: 971,
+      value: '971',
       currency: 'EUR'
     },
     date: '2014-04-01T20:42:58.429Z',
@@ -1532,7 +1550,7 @@ export const expenses = [
   {
     id: '5b995dffa0864eddc16e2f76',
     amount: {
-      value: 166,
+      value: '166',
       currency: 'GBP'
     },
     date: '2018-08-12T00:37:46.342Z',
@@ -1906,7 +1924,7 @@ export const expenses = [
   {
     id: '5b996064cadeac55736ad99a',
     amount: {
-      value: 1637,
+      value: '1637',
       currency: 'DKK'
     },
     date: '2018-01-16T22:15:16.209Z',
