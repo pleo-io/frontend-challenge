@@ -1,9 +1,15 @@
 # Front-end challenge
 Implement an expenses list fetching all expenses from the provided API. Allow the user to add notes, categories, and upload receipt pictures to each expense.
 
-// TODO: API details
+See the [API details](./API/README.md) for implementation.
 
-## Required
+## Functional requirements
+- [ ] User can list expenses
+- [ ] User can add a comment on an expense
+- [ ] User can filter on expenses (client side filters)
+- [ ] User can add a receipt image on an expense
+
+## General requirements
 A single page application using a modern JS library/framework including:
 - A visually pleasing experience, you don’t have to be a designer but you must have put an effort into making this look good
 - A "componentized" approach, split your code into small building blocks, showcase your clean architecture skills.
