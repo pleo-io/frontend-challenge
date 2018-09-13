@@ -12,11 +12,19 @@ router.get('/', (req, res) => {
 
   res.send({
     expenses: expenses
-      .slice(offset, offset + limit)
       .sort((a, b) => {
-        return a.date < b.date ? -1 : a.date > b.date ? 1 : 0
+        const valA = Date.parse(a.date)
+        const valB = Date.parse(b.date)
+    
+        if (valA > valB) {
+            return -1
+        }
+        if (valB > valA) {
+            return 1
+        }
+        return 0
       })
-      .reverse()
+      .slice(offset, offset + limit)
       .map((expense, index) => {
         return {
           ...expense,
