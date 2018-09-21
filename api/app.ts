@@ -8,6 +8,13 @@ import expensesRouter from './routes/expenses'
 
 const app = express()
 
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', "*")
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+  res.header('Access-Control-Allow-Headers', 'Origin, Content-Type')
+  next()
+})
+
 app.use(logger('dev'))
 app.use(fileUpload({
   limit: { fileSize: Infinity },
@@ -21,6 +28,9 @@ app.use('/expenses', expensesRouter)
 app.use(function(req, res, next) {
   next(createError(404))
 })
+console.log(process.env.NODE_ENV);
+
+
 
 app.use(function(err, req, res, next) {
   const message = err.message
