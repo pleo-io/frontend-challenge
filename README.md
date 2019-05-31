@@ -25,8 +25,11 @@ Want to go the extra mile? Here's few suggestion of things we'd like to see (or 
 - Localization: support for multiple languages (English, French, ...)
 
 ## What we're looking for
-- Using high-quality existing libraries or small amounts of custom code
+- Using high-quality existing libraries or small amounts of custom code. 
 - Production grade code (clean, maintainable, reusable code)
 - Showing your work through your commit history
 - Polish and visual creativity
 - Pride in craftsmanship
+
+## Super important 👇
+Please note that while you are free to use libraries of your choosing, we encourage you to write at least some your own code. This is your chance to really impress us with your skills.
