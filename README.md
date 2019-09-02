@@ -31,5 +31,6 @@ Want to go the extra mile? Here's few suggestion of things we'd like to see (or 
 - Polish and visual creativity
 - Pride in craftsmanship
 
-## Super important 👇
-Please note that while you are free to use libraries of your choosing, we encourage you to write at least some your own code. This is your chance to really impress us with your skills.
+## A few last things 👇
+ - Please note that while you are free to use libraries of your choosing, we encourage you to write at least some your own code. This is your chance to really impress us with your skills.
+- You are welcome to make changes to the API code if you think it will improve your solution
