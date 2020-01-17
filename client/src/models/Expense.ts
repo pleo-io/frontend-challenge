@@ -5,7 +5,7 @@ class Expense
 {
     id : string;
     amount : Amount;
-    date: Date;
+    date: string;
     merchant: string;
     receipts: any[];
     comment: string;
