@@ -1,0 +1,8 @@
+
+client/node_modules/
+
+.idea/
+
+client/out/
+
+api/
