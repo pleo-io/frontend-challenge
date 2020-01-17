@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2019",
+    "target": "es2018",
     "sourceMap": true,
     "lib" : [
       "dom",
-      "es2019",
-      "es2015.symbol.wellknown"
+      "es2018"
     ],
     "outDir": "out",
     "rootDir": "src"
