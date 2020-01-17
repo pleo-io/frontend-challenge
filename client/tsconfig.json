@@ -3,7 +3,11 @@
     "module": "commonjs",
     "target": "es2019",
     "sourceMap": true,
-    "lib" : ["dom", "es2019"],
+    "lib" : [
+      "dom",
+      "es2019",
+      "es2015.symbol.wellknown"
+    ],
     "outDir": "out",
     "rootDir": "src"
   },
