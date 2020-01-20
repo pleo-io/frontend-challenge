@@ -1,7 +1,7 @@
 import './amount';
 import './user';
 
-class Expense
+export class Expense
 {
     id : string;
     amount : Amount;
