@@ -2,6 +2,10 @@ import * as request from 'request';
 import {Expense} from './models/Expense'
 import * as fs from "fs";
 
+/**
+ * Since this is a small project, we'll use callbacks instead of Promises.
+ * Promises make the code look good, but they're a bit tricky to implement for such a small project.
+ */
 export class ExpensesApiService
 {
     getExpenses(limit : number, offset : number, callback : (expenses : Array<Expense>, total : number) => any)
@@ -11,7 +15,7 @@ export class ExpensesApiService
             json : true
         };
         let httpCallback = (error : any, response : any, body : any) => {
-            let expenses = body.expenses.map(expense => new Expense(expense));
+            let expenses = body.expenses.map((expense : Expense) => new Expense(expense));
             callback(expenses, body.total)
         };
         request.get(uri, options, httpCallback);
