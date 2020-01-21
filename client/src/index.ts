@@ -1,6 +1,9 @@
 import * as _ from 'lodash';
 
-let array = [1, 2, 3, 4, 5];
+import {ExpensesApiService} from './ExpensesApiService'
 
-console.log(_.reverse(array));
-
+let service = new ExpensesApiService();
+service.getExpenses(10, 25, (expenses, total) => {
+    console.log(expenses);
+    console.log(total);
+});
