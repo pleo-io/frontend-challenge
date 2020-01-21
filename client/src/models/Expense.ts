@@ -1,5 +1,5 @@
-import './amount';
-import './user';
+import {Amount} from './Amount';
+import {User} from './User';
 
 export class Expense
 {
@@ -16,18 +16,14 @@ export class Expense
     // this constructor is not mandatory in this context, but if at any time one of API or Model changes,
     // then we just have to change the mapping instead of refactoring all files referring to this.
     constructor(expenseResponse : any) {
-        expenseResponse.let(it => {
-            this.id = it.id;
-            this.amount = new Amount(it.amount);
-            this.date = it.date;
-            this.merchant = it.date;
-            this.receipts = it.receipts;
-            this.comment = it.comment;
-            this.category = it.category;
-            this.user = new User(it.user);
-            this.index = it.index;
-        });
-
-
+            this.id = expenseResponse.id;
+            this.amount = new Amount(expenseResponse.amount);
+            this.date = expenseResponse.date;
+            this.merchant = expenseResponse.date;
+            this.receipts = expenseResponse.receipts;
+            this.comment = expenseResponse.comment;
+            this.category = expenseResponse.category;
+            this.user = new User(expenseResponse.user);
+            this.index = expenseResponse.index;
     }
 }
