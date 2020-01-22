@@ -4,17 +4,25 @@ import 'mocha';
 import * as Path from "path";
 
 const expensesApiService = new ExpensesApiService();
-
 //before running those tests, the api should be up and running.
 //to start the api go to frontend-challenge/api
 //And write $npm install followed by $npm start
 
 describe('Fetch expenses', () => {
-    it('should fetch 25 expenses, without errors', () => {
-        expensesApiService.getExpenses(25, 0, (expenses, total) => {
-            let result = expenses.length;
-            expect(result).to.equal(25);
-        });
+    it('should fetch 25 expenses, without errors', (mochaDone) => {
+        try {
+            expensesApiService.getExpenses(25, 0, (expenses, total) => {
+                let result = expenses.length;
+                expect(result).to.equal(25);
+
+            });
+        }
+        catch(err) {
+
+        }finally {
+            mochaDone()
+        }
+
     });
 });
 
