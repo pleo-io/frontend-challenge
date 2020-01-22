@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Moment from 'react-moment';
 import {Expense} from "../models/Expense";
-import {Button, Card, Input} from 'reactstrap';
+import {Button, Card} from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export class ExpenseComponent extends Component<IPropTypes, IState> {

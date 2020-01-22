@@ -4,10 +4,6 @@ import {ExpenseComponent} from "./ExpenseComponent";
 
 export class ExpensesList extends Component {
 
-    constructor(props : any) {
-        super(props);
-    }
-
     state = {
         expenses : this.getSampleExpenses()
     };

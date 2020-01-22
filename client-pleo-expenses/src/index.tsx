@@ -3,7 +3,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {ExpensesList} from './components/ExpensesList'
 import * as serviceWorker from './serviceWorker';
 
 // @ts-ignore
