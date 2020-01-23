@@ -1,10 +1,7 @@
 import {Expense} from './models/Expense'
 import * as fs from "fs";
 import axios from 'axios';
-/**
- * Since this is a small project, we'll use callbacks instead of Promises.
- * Promises make the code look good, but they're a bit tricky to implement for such a small project.
- */
+
 export class ExpensesApiService
 {
     async getExpenses(limit : number, offset : number) : Promise<any>
