@@ -2,27 +2,73 @@
 import React from 'react';
 import './App.css';
 import {ExpensesList} from "./components/ExpensesList";
-import {ExpensesFilter, NavBar} from './components/NavBar';
+import {NavBar} from './components/NavBar';
+import {ExpensesFilter} from "./components/utils/utils";
 import {Expense} from "./models/Expense";
+import * as _ from 'lodash'
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-        <NavBar onFilterChanged={onFilterChanged}/>
-        <ExpensesList expenses={sampleExpenses}/>
-    </div>
-  );
-};
+export default class App extends React.Component<IPropTypes, IState> {
 
-const onFilterChanged = (filter : ExpensesFilter) =>
-{
-    console.log(`Filter changed for ${filter}!`);
-};
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            expenses: this.sampleExpenses,
+            filter: this.getDefaultFilter()
+        };
+    }
 
-const sampleExpenses : any = [
+    render() {
+        return (
+            <React.Fragment>
+                <NavBar onFilterChanged={this.onFilterChanged} filter={this.state.filter}/>
+                <main className="container">
+                    <ExpensesList expenses={this.getSortedExpenses({...this.state.expenses}, this.state.filter)}/>
+                </main>
+            </React.Fragment>
+        );
+    };
+
+    onFilterChanged = (filter: ExpensesFilter) => {
+        console.log(`Filter changed for ${filter}!`);
+        this.setState((prevState) => {
+            let copyState = {...prevState};
+            copyState.filter = filter;
+            return copyState
+        })
+    };
+
+    private getSortedExpenses(exps : Expense[], filter : ExpensesFilter) : Expense[]
+    {
+        return _.sortBy(exps, (e : Expense) => {
+            let ret;
+            switch (filter) {
+                case ExpensesFilter.Last:
+                    ret = e.user.last;
+                    break;
+                case ExpensesFilter.id:
+                    ret = e.id;
+                    break;
+                case ExpensesFilter.First:
+                    ret = e.user.first;
+                    break;
+                case ExpensesFilter.Date:
+                    ret = e.date;
+                    break;
+                case ExpensesFilter.Amount:
+                    ret = e.amount.value;
+                    break;
+                case ExpensesFilter.Currency:
+                    ret = e.amount.currency;
+                    break;
+            }
+            return ret;
+        });
+    }
+
+    sampleExpenses: any = [
         new Expense({
-            id : '0',
-            amount : {value : 3.00, currency : "CAD"},
+            id: '0',
+            amount: {value: 2.00, currency: "CAD"},
             date: new Date().toISOString(),
             merchant: "Merchant",
             receipts: [],
@@ -36,8 +82,8 @@ const sampleExpenses : any = [
             index: 0
         }),
         new Expense({
-            id : '1',
-            amount : {value : 3.00, currency : "CAD"},
+            id: '1',
+            amount: {value: 42.00, currency: "CAD"},
             date: new Date().toISOString(),
             merchant: "Merchant",
             receipts: [],
@@ -52,7 +98,7 @@ const sampleExpenses : any = [
         }),
         new Expense({
             id: '2',
-            amount: {value: 3.00, currency: "CAD"},
+            amount: {value: 24.00, currency: "CAD"},
             date: new Date().toISOString(),
             merchant: "Merchant",
             receipts: [],
@@ -67,4 +113,16 @@ const sampleExpenses : any = [
         })
     ];
 
-export default App;
+    private getDefaultFilter() {
+        return ExpensesFilter.id;
+    }
+}
+
+interface IState {
+    expenses : Expense[],
+    filter : ExpensesFilter
+}
+
+interface IPropTypes {
+
+}

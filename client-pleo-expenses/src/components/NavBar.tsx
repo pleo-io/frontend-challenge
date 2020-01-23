@@ -1,16 +1,10 @@
 import React from 'react';
 import Navbar from "react-bootstrap/Navbar";
 import * as _ from 'lodash'
+import {ExpensesFilter} from "./utils/utils";
 
 export class NavBar extends React.Component<IPropTypes, IState>
 {
-    constructor(props : any) {
-        super(props);
-        this.state = {
-            currentFilter : this.getDefaultFilter()
-        }
-    }
-
     render()
     {
         return (
@@ -32,7 +26,7 @@ export class NavBar extends React.Component<IPropTypes, IState>
                                 {
                                     _.map(ExpensesFilter, (filter) =>
                                     {
-                                        return <a key={filter} className={`dropdown-item ${this.getDropDownStyle(filter)}`} onClick={() => this.changeFilter(filter)}>{filter.valueOf()}</a>
+                                        return <a key={filter} className={`dropdown-item ${this.getDropDownStyle(filter)}`} onClick={() => this.props.onFilterChanged(filter)}>{filter.valueOf()}</a>
                                     })
                                 }
                             </div>
@@ -43,47 +37,26 @@ export class NavBar extends React.Component<IPropTypes, IState>
         );
     }
 
-    changeFilter(filter : ExpensesFilter) {
-        this.setState((prevState) =>
-        {
-            let copyState = { ...prevState };
-            copyState.currentFilter = filter;
-            return copyState
-        });
-        this.props.onFilterChanged(filter);
-    };
-
     getDropDownStyle(filter : any) : any
     {
         let styleWhenSelected = '';
-        if (this.state.currentFilter === filter)
+        if (this.props.filter === filter)
         {
             styleWhenSelected = "badge-secondary"
         }
         return styleWhenSelected
     }
 
-    getDefaultFilter()
-    {
-        return ExpensesFilter.id
-    }
+
 }
 
 interface IState
 {
-    currentFilter : ExpensesFilter
+
 }
 
 interface IPropTypes
 {
+    filter : ExpensesFilter
     onFilterChanged : any
-}
-
-export enum ExpensesFilter {
-    'id' = "None",
-    'Date' = "Date",
-    'First' = "First name",
-    'Last' = "Last name",
-    'Amount.value' = "Amount",
-    'Amount.currency' = "Currency"
 }
