@@ -30,9 +30,7 @@ describe('Update a comment', () => {
        expensesApiService.getExpenses(25, 0).then((res) => {
            let expenseId = res.expenses[1].id;
            const expected = 'this is a nice comment';
-           expensesApiService.updateExpenseComment(expenseId, expected, (expense => {
-               expect(expense.comment).to.equal(expected)
-           }));
+           expensesApiService.updateExpenseComment(expenseId, 'this is a nice comment').then(expense => expect(expense.comment).to.equal(expected))
        });
    });
 });
@@ -43,9 +41,9 @@ describe('Upload a picture', () => {
            let expenseId = res.expenses[1].id;
            let receiptsLength = res.expenses[1].receipts.length;
            const expected = receiptsLength + 1;
-           expensesApiService.uploadReceiptForExpense(expenseId, Path.join(__dirname,'pokemon_test_image.png'), (expense => {
+           expensesApiService.uploadReceiptForExpense(expenseId, Path.join(__dirname,'pokemon_test_image.png')).then(expense => {
                expect(expense.receipts.length).to.equal(expected)
-           }));
+           });
        });
    });
 });

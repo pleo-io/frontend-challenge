@@ -25,40 +25,25 @@ export class ExpensesApiService
         return {expenses : expenses, total : total}
     }
 
-    updateExpenseComment(expenseId : string, comment : string, callback : (comment : Expense) => any)
+    async updateExpenseComment(expenseId : string, comment : string) : Promise<any>
     {
         let uri = `http://localhost:3000/expenses/${expenseId}`;
-        let options = {
-            body : {comment},
-            json : true
-        };
-        let httpCallback = (error : any, response : any, body : any) => {
-            callback(new Expense(body))
-        };
+        await axios.post(uri, {comment, json:true})
     }
 
-    uploadReceiptForExpense(expenseId : string, receiptImagePath : string, callback : (expense : Expense) => any)
+    async uploadReceiptForExpense(expenseId : string, receiptImagePath : string) : Promise<any>
     {
         //inspired from https://github.com/request/request/tree/master/examples
         let uri = `http://localhost:3000/expenses/${expenseId}/receipts`;
-        let options = {
-            // all meta data should be included here for proper signing
-            qs: {
-                title: 'This receipt is awesome',
-                description: 'Sent on ' + new Date(),
-                is_public: 1
-            },
-            // again the same meta data + the actual photo
-            formData: {
-                title: 'This receipt is awesome',
-                description: 'Sent on ' + new Date(),
-                is_public: 1,
-                receipt:fs.createReadStream(receiptImagePath)
-            },
-            json : true
-        };
-        let httpCallback = (error : any, response : any, body : any) => {
-            callback(new Expense(body))
-        };
+        let expense = {};
+        await axios.post(uri, {
+            title: 'This receipt is awesome',
+            description: 'Sent on ' + new Date(),
+            is_public: 1,
+            json: true,
+            receipt:fs.createReadStream(receiptImagePath)})
+            .then(res => expense = new Expense(res))
+            .catch((err : any) => {console.log("something went wrong... " + err)});
+        return expense;
     }
 }
