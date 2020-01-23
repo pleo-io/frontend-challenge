@@ -6,15 +6,28 @@ import {NavBar} from './components/NavBar';
 import {ExpensesFilter} from "./components/utils/utils";
 import {Expense} from "./models/Expense";
 import * as _ from 'lodash'
+import {ExpensesApiService} from "./ExpensesApiService";
 
 export default class App extends React.Component<IPropTypes, IState> {
 
     constructor(props: any) {
         super(props);
         this.state = {
-            expenses: this.sampleExpenses,
+            expenses: [],
             filter: this.getDefaultFilter()
         };
+    }
+
+    componentDidMount(): void {
+        new ExpensesApiService().getExpenses(25, 0)
+            .then((res) =>
+            {
+                this.setState((prevState) => {
+                    let copyState = {...prevState};
+                    copyState.expenses = res.expenses;
+                    return copyState
+                });
+            })
     }
 
     render() {
