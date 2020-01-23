@@ -1,11 +1,20 @@
 import React from 'react';
 import Navbar from "react-bootstrap/Navbar";
+import * as _ from 'lodash'
 
-export class NavBar extends React.Component<IState, IPropTypes>
+export class NavBar extends React.Component<IPropTypes, IState>
 {
+    constructor(props : any) {
+        super(props);
+        this.state = {
+            currentFilter : this.getDefaultFilter()
+        }
+    }
+
     render()
     {
         return (
+           //template inspired from https://getbootstrap.com/docs/4.0/components/navbar/
             <Navbar className="navbar navbar-light bg-light">
                 <span className="navbar-brand mb-0 h1">Pleo Expenses</span>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -20,12 +29,12 @@ export class NavBar extends React.Component<IState, IPropTypes>
                                 Filters
                             </a>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a className="dropdown-item" href="#">None</a>
-                                <a className="dropdown-item" href="#">Date</a>
-                                <a className="dropdown-item" href="#">First Name</a>
-                                <a className="dropdown-item" href="#">Last Name</a>
-                                <a className="dropdown-item" href="#">Amount</a>
-                                <a className="dropdown-item" href="#">Currency</a>
+                                {
+                                    _.map(ExpensesFilter, (filter) =>
+                                    {
+                                        return <a key={filter} className={`dropdown-item ${this.getDropDownStyle(filter)}`} onClick={() => this.changeFilter(filter)}>{filter.valueOf()}</a>
+                                    })
+                                }
                             </div>
                         </li>
                     </ul>
@@ -33,14 +42,48 @@ export class NavBar extends React.Component<IState, IPropTypes>
             </Navbar>
         );
     }
+
+    changeFilter(filter : ExpensesFilter) {
+        this.setState((prevState) =>
+        {
+            let copyState = { ...prevState };
+            copyState.currentFilter = filter;
+            return copyState
+        });
+        this.props.onFilterChanged(filter);
+    };
+
+    getDropDownStyle(filter : any) : any
+    {
+        let styleWhenSelected = '';
+        if (this.state.currentFilter === filter)
+        {
+            styleWhenSelected = "badge-secondary"
+        }
+        return styleWhenSelected
+    }
+
+    getDefaultFilter()
+    {
+        return ExpensesFilter.id
+    }
 }
 
 interface IState
 {
-
+    currentFilter : ExpensesFilter
 }
 
 interface IPropTypes
 {
+    onFilterChanged : any
+}
 
+export enum ExpensesFilter {
+    'id' = "None",
+    'Date' = "Date",
+    'First' = "First name",
+    'Last' = "Last name",
+    'Amount.value' = "Amount",
+    'Amount.currency' = "Currency"
 }

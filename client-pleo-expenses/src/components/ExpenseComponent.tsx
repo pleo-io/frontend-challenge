@@ -27,11 +27,11 @@ export class ExpenseComponent extends Component<IPropTypes, IState> {
                         {this.props.expense.amount.currency}{' '}
                     </h4>
                     <p className="lead mb-1 px-3">
-                        <p className="lead mb-1">
+                        <span className="lead mb-1">
                             <Moment format="D MM YYYY" withTitle>
                                 {this.props.expense.date}
                             </Moment>
-                        </p>
+                        </span>
                         <Moment format="HH:mm A" withTitle>{this.props.expense.date}</Moment>
                     </p>
                     <div className="flex-row px-3">

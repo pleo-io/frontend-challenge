@@ -2,16 +2,21 @@
 import React from 'react';
 import './App.css';
 import {ExpensesList} from "./components/ExpensesList";
-import {NavBar} from './components/NavBar';
+import {ExpensesFilter, NavBar} from './components/NavBar';
 import {Expense} from "./models/Expense";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-        <NavBar/>
+        <NavBar onFilterChanged={onFilterChanged}/>
         <ExpensesList expenses={sampleExpenses}/>
     </div>
   );
+};
+
+const onFilterChanged = (filter : ExpensesFilter) =>
+{
+    console.log(`Filter changed for ${filter}!`);
 };
 
 const sampleExpenses : any = [
