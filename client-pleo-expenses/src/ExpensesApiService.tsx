@@ -1,4 +1,3 @@
-import * as request from 'request';
 import {Expense} from './models/Expense'
 import * as fs from "fs";
 
