@@ -1,23 +1,28 @@
 import {Expense} from './models/Expense'
 import * as fs from "fs";
-
+import axios from 'axios';
 /**
  * Since this is a small project, we'll use callbacks instead of Promises.
  * Promises make the code look good, but they're a bit tricky to implement for such a small project.
  */
 export class ExpensesApiService
 {
-    getExpenses(limit : number, offset : number, callback : (expenses : Array<Expense>, total : number) => any)
+    async getExpenses(limit : number, offset : number) : Promise<any>
     {
+        let expenses : Expense[] = [];
+        let total = 0;
         let uri = `http://localhost:3000/expenses?limit=${limit}&offset=${offset}`;
-        let options = {
-            json : true
-        };
-        let httpCallback = (error : any, response : any, body : any) => {
-            let expenses = body.expenses.map((expense : Expense) => new Expense(expense));
-            callback(expenses, body.total)
-        };
-        request.get(uri, options, httpCallback);
+        await axios.get(uri)
+            .then((res : any) =>
+            {
+                expenses = res.data.expenses.map((expense : Expense) => new Expense(expense));
+                total = res.data.total;
+            })
+            .catch((err : any) =>
+            {
+                console.log("something went wrong... " + err)
+            });
+        return {expenses : expenses, total : total}
     }
 
     updateExpenseComment(expenseId : string, comment : string, callback : (comment : Expense) => any)
@@ -30,7 +35,6 @@ export class ExpensesApiService
         let httpCallback = (error : any, response : any, body : any) => {
             callback(new Expense(body))
         };
-        request.post(uri, options, httpCallback);
     }
 
     uploadReceiptForExpense(expenseId : string, receiptImagePath : string, callback : (expense : Expense) => any)
@@ -56,6 +60,5 @@ export class ExpensesApiService
         let httpCallback = (error : any, response : any, body : any) => {
             callback(new Expense(body))
         };
-        request.post(uri, options, httpCallback)
     }
 }
