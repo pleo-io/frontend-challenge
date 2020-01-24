@@ -34,3 +34,44 @@ Want to go the extra mile? Here's few suggestion of things we'd like to see (or 
 ## A few last things 👇
  - Please note that while you are free to use libraries of your choosing, we encourage you to write at least some your own code. This is your chance to really impress us with your skills.
 - You are welcome to make changes to the API code if you think it will improve your solution
+
+### Post-Mortem
+
+This has been a fun challenge, and I must now put it to an end. <br/>
+
+#### How to start the project
+
+ - run `npm install` from `./client-pleo-expenses`
+ - run `npm start` from `./client-pleo-expenses`
+ 
+ <b>Note : </b> It is suggested to start the API beforehand in another window using those commands, but from the `./api` folder.
+
+#### Implemented features
+ - user can list some expenses, limited to 25 for now. <br/> 
+   (I believe there are some libraries out there that handle progressive loading better than I do.)
+   
+ - user can filter the expenses through client-side filters (very proud of this one!)
+ 
+ - user can add a comment to an expense (the API is kept posted about that, too!)
+ 
+ - user can add a (random) picture to an expense (the API is kind of in-the-dark with this one)
+ 
+ - user can visualize an added picture (bigger size) in a modal window by clicking on the picture
+
+#### Notes
+ - I have learned a lot about Javascript, Typescript, React and more during this challenge, <br/>
+and I am truly impressed by the power and versatility of that ecosystem.<br />
+
+ - Considering the time (~25h) and effort put into this challenge, I believe that this is a very good start <br/>
+   and I would love to see actual, production-grade code using these tools.
+  
+ - I am proud of what I accomplished, but I am also very aware that it is not the most efficient, <br/>
+   TS-savvy frontend code written in history.
+   
+ - My lack of generic knowledge about JS & TS frameworks definitely hindered my productivity.
+ 
+ - My google operational research skills definitely favored my performance, though! <br/>
+   (Look for comments scattered across the code, saying `strongly inspired from X` and the like.)
+ 
+ 
+
