@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from "react-bootstrap/Navbar";
 import * as _ from 'lodash'
-import {ExpensesFilter} from "./utils/utils";
+import {ExpensesFilter} from "./utils/ExpensesFilter";
 
 export class NavBar extends React.Component<IPropTypes, IState>
 {
