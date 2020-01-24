@@ -48,35 +48,31 @@ export default class App extends React.Component<IPropTypes, IState> {
                                type={state.currentModalType}
                                data={this.getDataForModal()}/>
                 <main className="container">
-                    <ExpensesList expenses={this.getSortedExpenses({...state.expenses}, state.filter)} onModalPrompt={this.openModal}/>
+                    <ExpensesList expenses={this.getSortedExpenses({...state.expenses}, state.filter)}
+                                  onModalPrompt={this.openModal}/>
                 </main>
             </React.Fragment>
         );
     };
 
-    onChangeModalTempData = (data : any) =>
+    onChangeModalTempData = (data: any) =>
     {
-        switch(this.state.currentModalType)
+        this.setState((prevState) =>
         {
-            case ModalType.uploadImage:
-                this.setState((prevState) =>
-                {
-                    let copyState = {...prevState};
+            let copyState = {...prevState};
+            switch (this.state.currentModalType)
+            {
+                case ModalType.uploadImage:
                     copyState.expenseBeingEdited.receipts[0] = data;
-                    return copyState;
-                });
-                break;
-            case ModalType.comment:
-                this.setState((prevState) =>
-                {
-                    let copyState = {...prevState};
+                    break;
+                case ModalType.comment:
                     copyState.expenseBeingEdited.comment = data;
-                    return copyState;
-                });
-                break;
-            default:
-                break;
-        }
+                    break;
+                default:
+                    break;
+            }
+            return copyState;
+        });
     };
 
     onFilterChanged = (filter: ExpensesFilter) =>
