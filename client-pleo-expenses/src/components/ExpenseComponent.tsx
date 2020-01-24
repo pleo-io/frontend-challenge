@@ -20,11 +20,15 @@ export class ExpenseComponent extends Component<IPropTypes, IState>
             <Card className="card">
                 <div className="row py-3 px-3">
                     <div className="card-title px-3">
-                        {expense.receipts.map(r=> {
-                                let src: string = (r.uri !== undefined) ? r.uri : "http://picsum.photos/200/300";
-                                return <img className="img-thumbnail" src={src} alt="nothing" onClick={(e) => {this.props.onModalPrompt(e, )}}/>;
-                            })}
-                        <h4 className="align-middle" >{expense.category}</h4>
+                        {expense.receipts.map(r =>
+                        {
+                            let src: string = (r.uri !== undefined) ? r.uri : "http://picsum.photos/200/300";
+                            return <img className="img-thumbnail" src={src} alt="nothing" onClick={(e) =>
+                            {
+                                this.props.onModalPrompt(e,)
+                            }}/>;
+                        })}
+                        <h4 className="align-middle">{expense.category}</h4>
                     </div>
                     <span className="card-body">
                         <h4>{expense.user.first} {expense.user.last}</h4>
@@ -74,11 +78,13 @@ export class ExpenseComponent extends Component<IPropTypes, IState>
     }
 }
 
-interface IPropTypes {
+interface IPropTypes
+{
     expense: Expense
-    onModalPrompt : any
+    onModalPrompt: any
 }
 
-interface IState {
+interface IState
+{
 
 }

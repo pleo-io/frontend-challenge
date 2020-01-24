@@ -8,7 +8,7 @@ export class NavBar extends React.Component<IPropTypes, IState>
     render()
     {
         return (
-           //template inspired from https://getbootstrap.com/docs/4.0/components/navbar/
+            //template inspired from https://getbootstrap.com/docs/4.0/components/navbar/
             <Navbar className="navbar navbar-light bg-light">
                 <span className="navbar-brand mb-0 h1">Pleo Expenses</span>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -26,7 +26,9 @@ export class NavBar extends React.Component<IPropTypes, IState>
                                 {
                                     _.map(ExpensesFilter, (filter) =>
                                     {
-                                        return <a key={filter} className={`dropdown-item ${this.getDropDownStyle(filter)}`} onClick={() => this.props.onFilterChanged(filter)}>{filter.valueOf()}</a>
+                                        return <a key={filter}
+                                                  className={`dropdown-item ${this.getDropDownStyle(filter)}`}
+                                                  onClick={() => this.props.onFilterChanged(filter)}>{filter.valueOf()}</a>
                                     })
                                 }
                             </div>
@@ -37,7 +39,7 @@ export class NavBar extends React.Component<IPropTypes, IState>
         );
     }
 
-    getDropDownStyle(filter : any) : any
+    getDropDownStyle(filter: any): any
     {
         let styleWhenSelected = '';
         if (this.props.filter === filter)
@@ -57,6 +59,6 @@ interface IState
 
 interface IPropTypes
 {
-    filter : ExpensesFilter
-    onFilterChanged : any
+    filter: ExpensesFilter
+    onFilterChanged: any
 }

@@ -1,4 +1,5 @@
-export enum ModalType {
+export enum ModalType
+{
     none,
     comment,
     showImage,
