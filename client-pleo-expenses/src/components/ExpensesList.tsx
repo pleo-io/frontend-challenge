@@ -4,8 +4,8 @@ import {ExpenseComponent} from "./ExpenseComponent";
 
 export class ExpensesList extends Component<IPropTypes, IState> {
     render() {
-
-        const expenses = this.props.expenses;
+        const props = this.props;
+        const expenses = props.expenses;
 
         return (
             <React.Fragment>
@@ -14,7 +14,7 @@ export class ExpensesList extends Component<IPropTypes, IState> {
                             {expenses.map(expense =>
                             {
                                 if (expenses.length !== 0)
-                                    return <ExpenseComponent key={expenses.indexOf(expense)} expense={expense}/>;
+                                    return <ExpenseComponent key={expenses.indexOf(expense)} expense={expense} onModalPrompt={props.onModalPrompt}/>;
                                 else return <h3>Something went wrong again.</h3>
                             })}
                         </ul>
@@ -31,6 +31,7 @@ interface IState{
 
 interface IPropTypes{
     expenses : Expense[]
+    onModalPrompt : any
 }
 
 
