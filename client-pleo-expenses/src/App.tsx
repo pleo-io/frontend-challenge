@@ -93,6 +93,10 @@ export default class App extends React.Component<IPropTypes, IState>
 
     handleClosedModal = () =>
     {
+        //if the expense being edited is undefined, it means that nothing in the state needs to change.
+        if (this.state.expenseBeingEdited === undefined){
+            return;
+        }
         this.setState((prevState) =>
         {
 
@@ -128,6 +132,7 @@ export default class App extends React.Component<IPropTypes, IState>
 
     openModal = (e: any, data: any, type: ModalType) =>
     {
+        console.log(data);
         if (type !== ModalType.showImage)
             //here, I had to use {...data}, since the modal window would update the state directly when inputted.
         {

@@ -22,10 +22,10 @@ export class ExpenseComponent extends Component<IPropTypes, IState>
                     <div className="card-title px-3">
                         {expense.receipts.map(r =>
                         {
-                            let src: string = (r.uri !== undefined) ? r.uri : "http://picsum.photos/200/300";
-                            return <img className="img-thumbnail" src={src} alt="nothing" onClick={(e) =>
+                            let src: string = (r.uri !== undefined) ? r : "http://picsum.photos/700/900";
+                            return <img key={r.indexOf()} width="200px" className="img-thumbnail" src={src} alt="nothing" onClick={(e) =>
                             {
-                                this.props.onModalPrompt(e,)
+                                this.props.onModalPrompt(e, src, ModalType.showImage)
                             }}/>;
                         })}
                         <h4 className="align-middle">{expense.category}</h4>
@@ -55,8 +55,7 @@ export class ExpenseComponent extends Component<IPropTypes, IState>
                     <div className="row- px-3">
                         <Button
                             className="btn-primary btn-lg"
-                            onClick={e => this.props.onModalPrompt(e, expense, ModalType.uploadImage)}
-                        >
+                            onClick={e => this.props.onModalPrompt(e, expense, ModalType.uploadImage)}>
                             <span className="badge">Upload Receipt</span>
                         </Button>
                         <Button
@@ -66,9 +65,7 @@ export class ExpenseComponent extends Component<IPropTypes, IState>
                                     e,
                                     expense,
                                     ModalType.comment
-                                )
-                            }
-                        >
+                                )}>
                             <span className="badge">Edit Comment</span>
                         </Button>
                     </div>
