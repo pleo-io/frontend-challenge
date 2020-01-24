@@ -26,27 +26,26 @@ describe('Fetch expenses', () =>
         {
             mochaDone()
         }
-
     });
 });
 
 describe('Update a comment', () =>
 {
-    it('should update a comment for an expense, without errors', () =>
+    it('should update a comment for an expense, without errors', (mochaDone) =>
     {
         expensesApiService.getExpenses(25, 0).then((res) =>
         {
             let expenseId = res.expenses[1].id;
             const expected = 'this is a nice comment';
             expensesApiService.updateExpenseComment(expenseId, 'this is a nice comment')
-                .then(expense => expect(expense.comment).to.equal(expected))
+                .then(expense => expect(expense.comment).to.equal(expected)).catch(err => mochaDone())
         });
     });
 });
 
 describe('Upload a picture', () =>
 {
-    it('should upload a picture for an expense, without errors', () =>
+    it('should upload a picture for an expense, without errors', (mochaDone) =>
     {
         expensesApiService.getExpenses(25, 0).then((res) =>
         {
@@ -57,7 +56,8 @@ describe('Upload a picture', () =>
                 .then(expense =>
                 {
                     expect(expense.receipts.length).to.equal(expected)
-                });
+                }).catch(err => {})
+                .finally(() => mochaDone());
         });
     });
 });

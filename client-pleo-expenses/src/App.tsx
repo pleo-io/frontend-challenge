@@ -93,12 +93,18 @@ export default class App extends React.Component<IPropTypes, IState>
 
     handleClosedModal = () =>
     {
+        //if the expense being edited is undefined, it means that nothing in the state needs to change.
+        if (this.state.expenseBeingEdited === undefined)
+        {
+            return;
+        }
         this.setState((prevState) =>
         {
-
             let tempExpense = prevState.expenseBeingEdited; //read Only!
             let copyState = {...prevState};
             let expenseToOverwrite = copyState.expenses.find(e => e.id === tempExpense.id); //reference
+
+            const apiService = new ExpensesApiService();
 
             switch (prevState.currentModalType)
             {
@@ -106,12 +112,22 @@ export default class App extends React.Component<IPropTypes, IState>
                     if (expenseToOverwrite !== undefined)
                     {
                         expenseToOverwrite.receipts[0] = tempExpense.receipts[0];
+                        apiService.uploadReceiptForExpense(expenseToOverwrite.id, expenseToOverwrite.receipts[0])
+                            .then((res: any) =>
+                            {
+                                this.setState(prevState => prevState)
+                            })
                     }
                     break;
                 case ModalType.comment:
                     if (expenseToOverwrite !== undefined)
                     {
                         expenseToOverwrite.comment = tempExpense.comment;
+                        apiService.updateExpenseComment(expenseToOverwrite.id, expenseToOverwrite.comment)
+                            .then((res: any) =>
+                            {
+                                this.setState(prevState => prevState)
+                            })
                     }
                     break;
                 default:
@@ -121,30 +137,26 @@ export default class App extends React.Component<IPropTypes, IState>
         });
     };
 
-    closeModal = (expense: Expense, type: ModalType) =>
-    {
-        this.setState({showModal: false})
-    };
-
     openModal = (e: any, data: any, type: ModalType) =>
     {
-        if (type !== ModalType.showImage)
+        if (type === ModalType.showImage)
             //here, I had to use {...data}, since the modal window would update the state directly when inputted.
-        {
-            this.setState({
-                showModal: true,
-                currentModalType: type,
-                expenseBeingEdited: {...data},
-                imageForModal: undefined
-            });
-        }
-        else
         {
             this.setState({
                 showModal: true,
                 currentModalType: type,
                 imageForModal: data,
                 expenseBeingEdited: undefined
+            });
+
+        }
+        else if (type !== ModalType.none)
+        {
+            this.setState({
+                showModal: true,
+                currentModalType: type,
+                expenseBeingEdited: {...data},
+                imageForModal: undefined
             });
         }
     };
@@ -170,7 +182,6 @@ export default class App extends React.Component<IPropTypes, IState>
                 modalData = null;
                 break;
         }
-        console.log({modalData: modalData});
         return modalData;
     }
 
