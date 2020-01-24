@@ -34,7 +34,7 @@ export class ExpensesApiService
         let uri = `http://localhost:3000/expenses/${expenseId}/receipts`;
         let expense = {};
         const config = {
-            headers: { 'content-type': 'multipart/form-data' }
+            headers: {'content-type': 'multipart/form-data'}
         };
         let data = {
             title: 'This receipt is awesome',

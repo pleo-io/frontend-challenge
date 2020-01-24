@@ -23,7 +23,8 @@ export class ExpenseComponent extends Component<IPropTypes, IState>
                         {expense.receipts.map(r =>
                         {
                             let src: string = (r.uri !== undefined) ? r : "http://picsum.photos/700/900";
-                            return <img key={r.indexOf()} width="200px" className="img-thumbnail" src={src} alt="nothing" onClick={(e) =>
+                            return <img key={r.indexOf()} width="200px" className="img-thumbnail" src={src}
+                                        alt="nothing" onClick={(e) =>
                             {
                                 this.props.onModalPrompt(e, src, ModalType.showImage)
                             }}/>;
