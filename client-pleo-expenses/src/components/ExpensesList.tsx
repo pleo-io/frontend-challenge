@@ -2,35 +2,46 @@ import React, {Component} from "react";
 import {Expense} from "../models/Expense";
 import {ExpenseComponent} from "./ExpenseComponent";
 
-export class ExpensesList extends Component<IPropTypes, IState> {
-    render() {
-
-        const expenses = this.props.expenses;
+export class ExpensesList extends Component<IPropTypes, IState>
+{
+    render()
+    {
+        const props = this.props;
+        const expenses = props.expenses;
 
         return (
             <React.Fragment>
-                    <div className="py-3">
-                        <ul>
-                            {expenses.map(expense =>
+                <div className="py-3">
+                    <ul>
+                        {expenses.map(expense =>
+                        {
+                            if (expenses.length !== 0)
                             {
-                                if (expenses.length !== 0)
-                                    return <ExpenseComponent key={expenses.indexOf(expense)} expense={expense}/>;
-                                else return <h3>Something went wrong again.</h3>
-                            })}
-                        </ul>
+                                return <ExpenseComponent key={expenses.indexOf(expense)} expense={expense}
+                                                         onModalPrompt={props.onModalPrompt}/>;
+                            }
+                            else
+                            {
+                                return <h3>Something went wrong again.</h3>
+                            }
+                        })}
+                    </ul>
 
-                    </div>
+                </div>
             </React.Fragment>
         );
     }
 }
 
-interface IState{
+interface IState
+{
 
 }
 
-interface IPropTypes{
-    expenses : Expense[]
+interface IPropTypes
+{
+    expenses: Expense[]
+    onModalPrompt: any
 }
 
 

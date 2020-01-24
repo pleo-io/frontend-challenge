@@ -1,4 +1,5 @@
-export enum ExpensesFilter {
+export enum ExpensesFilter
+{
     'id' = "None",
     'Date' = "Date",
     'First' = "First name",

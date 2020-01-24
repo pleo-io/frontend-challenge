@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import Moment from 'react-moment';
 import {Expense} from "../models/Expense";
 import {Button, Card} from 'reactstrap';
+import {ModalType} from "./utils/ModalType";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export class ExpenseComponent extends Component<IPropTypes, IState>
@@ -9,7 +10,6 @@ export class ExpenseComponent extends Component<IPropTypes, IState>
     render()
     {
         const props = this.props;
-        console.log(props);
         const expense = props.expense;
         if (expense === undefined || expense.user === undefined)
         {
@@ -20,11 +20,15 @@ export class ExpenseComponent extends Component<IPropTypes, IState>
             <Card className="card">
                 <div className="row py-3 px-3">
                     <div className="card-title px-3">
-                        {expense.receipts.map(r=> {
-                                let src: string = (r.uri !== undefined) ? r.uri : "http://picsum.photos/200/300";
-                                return <img src={src} alt="image error."/>;
-                            })}
-                        <h4 className="align-middle" >{expense.category}</h4>
+                        {expense.receipts.map(r =>
+                        {
+                            let src: string = (r.uri !== undefined) ? r.uri : "http://picsum.photos/200/300";
+                            return <img className="img-thumbnail" src={src} alt="nothing" onClick={(e) =>
+                            {
+                                this.props.onModalPrompt(e,)
+                            }}/>;
+                        })}
+                        <h4 className="align-middle">{expense.category}</h4>
                     </div>
                     <span className="card-body">
                         <h4>{expense.user.first} {expense.user.last}</h4>
@@ -33,9 +37,8 @@ export class ExpenseComponent extends Component<IPropTypes, IState>
                             <i className="align-middle">{expense.user.email}</i>
                         </a>
                             <p/>
-                        <span className="align-middle">This is a nice comment!e comment!This is a nice comment!</span>
+                        <span className="align-middle">{expense.comment}</span>
                         </div>
-
                     </span>
                     <h4 className="px-3 col-sm">
                         {Number(expense.amount.value).toFixed(2)}{' '}
@@ -52,19 +55,19 @@ export class ExpenseComponent extends Component<IPropTypes, IState>
                     <div className="row- px-3">
                         <Button
                             className="btn-primary btn-lg"
-                            //onClick={e => this.props.openImageModal(e, expense.id)}
+                            onClick={e => this.props.onModalPrompt(e, expense, ModalType.uploadImage)}
                         >
-                            <span className="badge">Open Image</span>
+                            <span className="badge">Upload Receipt</span>
                         </Button>
                         <Button
                             className="btn-info btn-lg"
-                            /*onClick={e =>
-                                this.props.openCommentModal(
+                            onClick={e =>
+                                this.props.onModalPrompt(
                                     e,
-                                    expense.id,
-                                    expense.comment
+                                    expense,
+                                    ModalType.comment
                                 )
-                            }*/
+                            }
                         >
                             <span className="badge">Edit Comment</span>
                         </Button>
@@ -75,10 +78,13 @@ export class ExpenseComponent extends Component<IPropTypes, IState>
     }
 }
 
-interface IPropTypes {
+interface IPropTypes
+{
     expense: Expense
+    onModalPrompt: any
 }
 
-interface IState {
+interface IState
+{
 
 }
