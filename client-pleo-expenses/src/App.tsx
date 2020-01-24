@@ -3,18 +3,24 @@ import React from 'react';
 import './App.css';
 import {ExpensesList} from "./components/ExpensesList";
 import {NavBar} from './components/NavBar';
-import {ExpensesFilter} from "./components/utils/utils";
+import {ExpensesFilter} from "./components/utils/ExpensesFilter";
 import {Expense} from "./models/Expense";
 import * as _ from 'lodash'
 import {ExpensesApiService} from "./ExpensesApiService";
+import {ModalExpenses} from "./components/modals/ModalExpenses";
+import {ModalType} from "./components/utils/ModalType";
 
 export default class App extends React.Component<IPropTypes, IState> {
 
     constructor(props: any) {
         super(props);
         this.state = {
+            showModal: false,
             expenses: [],
-            filter: this.getDefaultFilter()
+            filter: App.getDefaultFilter(),
+            currentModalType : ModalType.none,
+            expenseBeingEdited : {},
+            imageForModal : undefined
         };
     }
 
@@ -31,24 +37,121 @@ export default class App extends React.Component<IPropTypes, IState> {
     }
 
     render() {
+        const state = this.state;
         return (
             <React.Fragment>
-                <NavBar onFilterChanged={this.onFilterChanged} filter={this.state.filter}/>
+                <NavBar onFilterChanged={this.onFilterChanged} filter={state.filter}/>
+                <ModalExpenses handleClose={this.handleClosedModal}
+                               onChangeTempData={this.onChangeModalTempData}
+                               show={state.showModal}
+                               toggle={this.toggleModal}
+                               type={state.currentModalType}
+                               data={this.getDataForModal()}/>
                 <main className="container">
-                    <ExpensesList expenses={this.getSortedExpenses({...this.state.expenses}, this.state.filter)}/>
+                    <ExpensesList expenses={this.getSortedExpenses({...state.expenses}, state.filter)} onModalPrompt={this.openModal}/>
                 </main>
             </React.Fragment>
         );
     };
 
-    onFilterChanged = (filter: ExpensesFilter) => {
+    onChangeModalTempData = (data : any) =>
+    {
+        switch(this.state.currentModalType)
+        {
+            case ModalType.uploadImage:
+                this.setState((prevState) =>
+                {
+                    let copyState = {...prevState};
+                    copyState.expenseBeingEdited.receipts[0] = data;
+                    return copyState;
+                });
+                break;
+            case ModalType.comment:
+                this.setState((prevState) =>
+                {
+                    let copyState = {...prevState};
+                    copyState.expenseBeingEdited.comment = data;
+                    return copyState;
+                });
+                break;
+            default:
+                break;
+        }
+    };
+
+    onFilterChanged = (filter: ExpensesFilter) =>
+    {
         console.log(`Filter changed for ${filter}!`);
-        this.setState((prevState) => {
+        this.setState((prevState) =>
+        {
             let copyState = {...prevState};
             copyState.filter = filter;
             return copyState
         })
     };
+
+    handleClosedModal = () =>
+    {
+        this.setState((prevState) =>
+        {
+
+            let tempExpense = prevState.expenseBeingEdited; //read Only!
+            let copyState = {...prevState};
+            let expenseToOverwrite = copyState.expenses.find(e => e.id === tempExpense.id); //reference
+
+            switch(prevState.currentModalType)
+            {
+                case ModalType.uploadImage:
+                    if (expenseToOverwrite !== undefined)
+                        expenseToOverwrite.receipts[0] = tempExpense.receipts[0];
+                    break;
+                case ModalType.comment:
+                    if (expenseToOverwrite !== undefined)
+                        expenseToOverwrite.comment = tempExpense.comment;
+                    break;
+                default:
+                    break;
+            }
+            return copyState;
+        });
+    };
+
+    closeModal = (expense : Expense, type : ModalType) =>
+    {
+        this.setState({showModal : false})
+    };
+
+    openModal = (e : any, data : any, type : ModalType) =>
+    {
+        if (type !== ModalType.showImage)
+            //here, I had to use {...data}, since the modal window would update the state directly when inputted.
+            this.setState({showModal : true, currentModalType : type, expenseBeingEdited : {...data}, imageForModal : undefined});
+        else
+            this.setState({showModal : true, currentModalType : type, imageForModal : data, expenseBeingEdited : undefined});
+    };
+
+    toggleModal = (expense : Expense, type : ModalType) =>
+    {
+      this.setState({showModal : !this.state.showModal})
+    };
+
+    private getDataForModal() : any {
+        let modalData;
+        switch(this.state.currentModalType) {
+            case ModalType.comment:
+            case ModalType.uploadImage:
+                modalData = this.state.expenseBeingEdited;
+                break;
+            case ModalType.showImage:
+                modalData = this.state.imageForModal;
+                break;
+            case ModalType.none:
+                modalData = null;
+                break;
+        }
+        console.log({modalData : modalData});
+        return modalData;
+    }
 
     private getSortedExpenses(exps : Expense[], filter : ExpensesFilter) : Expense[]
     {
@@ -126,16 +229,21 @@ export default class App extends React.Component<IPropTypes, IState> {
         })
     ];
 
-    private getDefaultFilter() {
+    private static getDefaultFilter()
+    {
         return ExpensesFilter.id;
     }
 }
 
-interface IState {
+interface IState
+{
+    showModal : boolean,
     expenses : Expense[],
-    filter : ExpensesFilter
+    filter : ExpensesFilter,
+    currentModalType : ModalType,
+    expenseBeingEdited : any,
+    imageForModal ?: string
 }
 
-interface IPropTypes {
-
-}
+interface IPropTypes
+{}
