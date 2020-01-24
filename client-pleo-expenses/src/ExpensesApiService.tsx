@@ -1,6 +1,6 @@
 import {Expense} from './models/Expense'
-import * as fs from "fs";
 import axios from 'axios';
+import * as path from "path";
 
 export class ExpensesApiService
 {
@@ -33,13 +33,18 @@ export class ExpensesApiService
         //inspired from https://github.com/request/request/tree/master/examples
         let uri = `http://localhost:3000/expenses/${expenseId}/receipts`;
         let expense = {};
-        await axios.post(uri, {
+        const config = {
+            headers: { 'content-type': 'multipart/form-data' }
+        };
+        let data = {
             title: 'This receipt is awesome',
             description: 'Sent on ' + new Date(),
             is_public: 1,
             json: true,
-            receipt: fs.createReadStream(receiptImagePath)
-        })
+            receipt: receiptImagePath
+        };
+
+        await axios.post(uri, data, config)
             .then(res => expense = new Expense(res))
             .catch((err: any) =>
             {

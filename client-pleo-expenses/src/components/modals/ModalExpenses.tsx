@@ -132,7 +132,7 @@ export class ModalExpenses extends Component<IPropTypes, IState>
 
     private getShowPictureBody()
     {
-        return (<img className="img-thumbnail" width="175%" src={this.props.data} alt="Nothing"/>);
+        return (<img className="img-thumbnail" width="150%" src={this.props.data} alt="Nothing"/>);
     }
 
     private static defaultBody = (<div>There is nothing to show.</div>);
