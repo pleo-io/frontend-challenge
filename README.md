@@ -17,6 +17,8 @@ A single page application using a modern JS library/framework including:
 - The use of any libraries or frameworks as long as you can explain to us why you chose them.
 - A brief description of your project. How long did it take? Which part was the hardest to implement? What functionalities are you most proud of?
 
+**Note**: We strongly suggest using react to implement your solution since it is part of our stack. 
+
 ## Nice to have
 Want to go the extra mile? Here's few suggestion of things we'd like to see (or go crazy and implement what you think will impress us).
 - Responsive design
