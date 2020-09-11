@@ -9,7 +9,7 @@ const router = express.Router()
 router.get('/', (req, res) => {
   const limit = parseInt(req.query.limit) || 25
   const offset = parseInt(req.query.offset) || 0
-
+  
   res.send({
     expenses: expenses
       .sort((a, b) => {
@@ -37,11 +37,10 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const expense = expenses.find((expense) => expense.id === req.params.id)
-
   if (expense) {
-    res.send(expense)
+    res.status(200).send(expense)
   } else {
-    res.status(404)
+    res.status(404).send('The id is not found')
   }
 })
 
@@ -52,11 +51,12 @@ router.post('/:id', (req, res) => {
     expense.comment = req.body.comment || expense.comment
     res.status(200).send(expense)
   } else {
-    res.status(404)
+    res.status(404).send('The id is not found')
   }
 })
 
 router.post('/:id/receipts', (req, res) => {
+  // console.log(JSON.stringify(req));
   if (!req.files) {
     return res.status(400).send('No files were uploaded.');
   }
@@ -79,7 +79,7 @@ router.post('/:id/receipts', (req, res) => {
     })
 
   } else {
-    res.status(404)
+    res.status(404).send('The id is not found')
   }
 })
 
